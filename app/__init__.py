@@ -23,6 +23,12 @@ def create_app():
     # 'auth.login' means the login route inside the auth blueprint
     login_manager.login_view = 'auth.login'
 
+    # Import models so SQLAlchemy knows about the tables
+    from app.models.user import User
+    from app.models.store import Store
+    from app.models.review import Review
+    from app.models.image import StoreImage, FoodItem
+
     # Register Blueprints (each blueprint is one feature area)
     from app.routes.main import main
     from app.routes.auth import auth
