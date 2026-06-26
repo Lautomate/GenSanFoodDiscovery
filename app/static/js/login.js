@@ -1,11 +1,10 @@
 // ─────────────────────────────────────────────
-// register.js — Registration page only scripts
+// login.js — Login page only scripts
 // ─────────────────────────────────────────────
 
 // Toggle password field visibility
-// Called by the eye button next to password fields
+// Called by the eye button next to the password field
 function togglePassword(buttonElement) {
-    // Go up to the input-wrapper, then find the input field inside it
     const wrapper = buttonElement.closest('.input-wrapper');
     const field = wrapper.querySelector('input');
     field.type = field.type === 'password' ? 'text' : 'password';

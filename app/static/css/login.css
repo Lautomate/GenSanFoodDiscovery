@@ -1,0 +1,257 @@
+/* ─────────────────────────────────────────────
+   login.css — Login page only styles
+───────────────────────────────────────────── */
+
+/* ─── PAGE LAYOUT ─── */
+.login-page {
+    display: flex;
+    min-height: calc(100vh - 64px);
+}
+
+/* ─── LEFT PANEL — Desktop food photo ─── */
+.left-panel {
+    display: none;
+}
+
+/* ─── RIGHT PANEL ─── */
+.right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+}
+
+/* ─── BRANDING ─── */
+.branding {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 12px;
+}
+
+.brand-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.brand-tagline {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* ─── FORM CARD ─── */
+.card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 32px 28px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.card-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+/* ─── FORM FIELDS ─── */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--text-muted);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary);
+}
+
+.form-group input.is-invalid {
+    border-color: var(--error-text);
+}
+
+.field-error {
+    font-size: 0.78rem;
+    color: var(--error-text);
+    margin-top: 4px;
+    display: block;
+}
+
+/* ─── PASSWORD TOGGLE ─── */
+.toggle-password {
+    position: absolute;
+    right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 1rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* ─── REMEMBER ME CHECKBOX ─── */
+.remember-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.remember-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.remember-group label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    margin: 0;
+}
+
+/* ─── SUBMIT BUTTON ─── */
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+/* ─── FOOTER LINK ─── */
+.card-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.card-footer a {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.card-footer a:hover {
+    text-decoration: underline;
+}
+
+/* ─── DESKTOP LAYOUT ─── */
+@media (min-width: 768px) {
+    .left-panel {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        width: 50%;
+        min-height: calc(100vh - 64px);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .left-panel img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .left-panel-overlay {
+        position: relative;
+        z-index: 1;
+        padding: 40px;
+        background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+    }
+
+    .left-panel-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.7);
+        margin-bottom: 12px;
+    }
+
+    .left-panel-headline {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #FFFFFF;
+        line-height: 1.2;
+        margin-bottom: 12px;
+    }
+
+    .left-panel-sub {
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.75);
+        max-width: 320px;
+    }
+
+    .right-panel {
+        width: 50%;
+    }
+}

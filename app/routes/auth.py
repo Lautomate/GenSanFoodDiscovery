@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
-from flask_login import logout_user, login_required
-from werkzeug.security import generate_password_hash
+from flask_login import login_user, logout_user, login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
-from app.forms import RegistrationForm
+from app.forms import RegistrationForm, LoginForm
 from app.models.user import User
 
 auth = Blueprint('auth', __name__)
@@ -34,10 +34,29 @@ def register():
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('auth/login.html')
+    # If user is already logged in, redirect to home
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        # Find the user by email
+        user = User.query.filter_by(email=form.email.data).first()
+
+        # Check if user exists and password is correct
+        if user and check_password_hash(user.password_hash, form.password.data):
+            login_user(user, remember=form.remember.data)
+            flash(f'Welcome back, {user.username}!', 'success')
+            return redirect(url_for('main.index'))
+        else:
+            flash('Invalid email or password. Please try again.', 'error')
+
+    return render_template('auth/login.html', form=form)
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
+    flash('You have been logged out.', 'success')
     return redirect(url_for('main.index'))

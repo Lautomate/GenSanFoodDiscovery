@@ -11,7 +11,7 @@
 
     <!-- LEFT PANEL — Desktop only, food photo -->
     <div class="left-panel">
-        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80" alt="Local food in General Santos City">
+        <img src="https://images6.alphacoders.com/876/thumb-1920-876171.jpg" alt="Local food in General Santos City">
         <div class="left-panel-overlay">
             <p class="left-panel-label">General Santos City</p>
             <h2 class="left-panel-headline">Taste the city, one local kitchen at a time.</h2>
@@ -86,7 +86,7 @@
                             placeholder="Enter your password",
                             class="is-invalid" if form.password.errors else ""
                         ) }}
-                        <button type="button" class="toggle-password" onclick="togglePassword('password')">👁</button>
+                        <button type="button" class="toggle-password" onclick="togglePassword(this)">👁</button>
                     </div>
                     {% for error in form.password.errors %}
                         <span class="field-error">{{ error }}</span>
@@ -102,7 +102,7 @@
                             placeholder="Re-enter your password",
                             class="is-invalid" if form.confirm_password.errors else ""
                         ) }}
-                        <button type="button" class="toggle-password" onclick="togglePassword('confirm_password')">👁</button>
+                        <button type="button" class="toggle-password" onclick="togglePassword(this)">👁</button>
                     </div>
                     {% for error in form.confirm_password.errors %}
                         <span class="field-error">{{ error }}</span>
