@@ -1,14 +1,141 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Create an Account</h1>
-    <p>Registration form coming soon.</p>
+{% block title %}Register — Heneral Foodie{% endblock %}
 
-</body>
-</html>
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="register-page">
+
+    <!-- LEFT PANEL — Desktop only, food photo -->
+    <div class="left-panel">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80" alt="Local food in General Santos City">
+        <div class="left-panel-overlay">
+            <p class="left-panel-label">General Santos City</p>
+            <h2 class="left-panel-headline">Taste the city, one local kitchen at a time.</h2>
+            <p class="left-panel-sub">Find hidden eateries, fresh tuna spots, and street food gems near you.</p>
+        </div>
+    </div>
+
+    <!-- RIGHT PANEL — Registration form -->
+    <div class="right-panel">
+
+        <!-- Branding -->
+        <div class="branding">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Heneral Foodie Logo" class="logo">
+            <h1 class="brand-name">Heneral Foodie</h1>
+            <p class="brand-tagline">Discover the best local food in General Santos City</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="card">
+            <h2 class="card-title">Create your account</h2>
+            <p class="card-subtitle">Join the local food community in a few quick steps.</p>
+
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Registration form -->
+            <form method="POST" action="{{ url_for('auth.register') }}">
+                {{ form.hidden_tag() }}
+
+                <!-- Username -->
+                <div class="form-group">
+                    {{ form.username.label }}
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        {{ form.username(
+                            placeholder="Enter your username",
+                            class="is-invalid" if form.username.errors else ""
+                        ) }}
+                    </div>
+                    {% for error in form.username.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    {{ form.email.label }}
+                    <div class="input-wrapper">
+                        <span class="input-icon">✉️</span>
+                        {{ form.email(
+                            placeholder="Enter your email",
+                            class="is-invalid" if form.email.errors else ""
+                        ) }}
+                    </div>
+                    {% for error in form.email.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    {{ form.password.label }}
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        {{ form.password(
+                            placeholder="Enter your password",
+                            class="is-invalid" if form.password.errors else ""
+                        ) }}
+                        <button type="button" class="toggle-password" onclick="togglePassword('password')">👁</button>
+                    </div>
+                    {% for error in form.password.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    {{ form.confirm_password.label }}
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        {{ form.confirm_password(
+                            placeholder="Re-enter your password",
+                            class="is-invalid" if form.confirm_password.errors else ""
+                        ) }}
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirm_password')">👁</button>
+                    </div>
+                    {% for error in form.confirm_password.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Register as -->
+                <div class="form-group">
+                    {{ form.role.label }}
+                    <div class="input-wrapper select-wrapper">
+                        <span class="input-icon">🍽</span>
+                        {{ form.role(class="is-invalid" if form.role.errors else "") }}
+                    </div>
+                    {% for error in form.role.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Submit -->
+                {{ form.submit(class="btn-primary") }}
+
+            </form>
+
+            <!-- Footer link -->
+            <div class="card-footer">
+                Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+{% endblock %}

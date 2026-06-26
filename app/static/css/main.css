@@ -1,0 +1,204 @@
+/* ─────────────────────────────────────────────
+   main.css — Shared styles for Heneral Foodie
+   Applies to every page
+───────────────────────────────────────────── */
+
+/* ─── CSS VARIABLES ─── */
+/* Change a color here and it updates everywhere */
+:root {
+    --primary:          #E8470A;
+    --primary-hover:    #C93D08;
+    --background:       #FAF7F4;
+    --card:             #FFFFFF;
+    --text-dark:        #1A1A1A;
+    --text-muted:       #6B6B6B;
+    --input-bg:         #F5F0EB;
+    --input-border:     #E0D9D1;
+    --success-bg:       #F0FBF0;
+    --success-border:   #4CAF50;
+    --success-text:     #2E7D32;
+    --error-text:       #D32F2F;
+    --error-bg:         #FFF0F0;
+    --error-border:     #F44336;
+    --navbar-height:    64px;
+}
+
+/* ─── RESET ─── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ─── BASE ─── */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background);
+    color: var(--text-dark);
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ─── NAVBAR ─── */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--card);
+    border-bottom: 1px solid var(--input-border);
+    height: var(--navbar-height);
+    display: flex;
+    align-items: center;
+}
+
+.navbar-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo + App name */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.navbar-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.navbar-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* Nav links — desktop */
+.navbar-menu {
+    display: none;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-link {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    transition: background 0.2s;
+}
+
+.nav-link:hover {
+    background: var(--input-bg);
+}
+
+/* Primary button style nav link — Login */
+.nav-link-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.nav-link-primary:hover {
+    background: var(--primary-hover);
+    color: white;
+}
+
+/* Outline style nav link — Logout */
+.nav-link-outline {
+    border: 1px solid var(--input-border);
+}
+
+.nav-link-outline:hover {
+    background: var(--input-bg);
+}
+
+/* Mobile toggle button */
+.navbar-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.navbar-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-dark);
+    border-radius: 2px;
+    transition: all 0.2s;
+}
+
+/* Mobile menu open state */
+.navbar-menu.is-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    background: var(--card);
+    border-bottom: 1px solid var(--input-border);
+    padding: 16px 24px;
+    gap: 4px;
+}
+
+/* ─── DESKTOP NAVBAR ─── */
+@media (min-width: 768px) {
+    .navbar-toggle {
+        display: none;
+    }
+
+    .navbar-menu {
+        display: flex;
+    }
+}
+
+/* ─── FLASH MESSAGES ─── */
+.flash-container {
+    max-width: 1200px;
+    margin: 16px auto;
+    padding: 0 24px;
+}
+
+.flash {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    margin-bottom: 8px;
+}
+
+.flash-success {
+    background: var(--success-bg);
+    border: 1px solid var(--success-border);
+    color: var(--success-text);
+}
+
+.flash-error {
+    background: var(--error-bg);
+    border: 1px solid var(--error-border);
+    color: var(--error-text);
+}
+
+.flash-warning {
+    background: #FFFDE7;
+    border: 1px solid #FBC02D;
+    color: #F57F17;
+}
