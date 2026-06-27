@@ -32,8 +32,10 @@ def create_app():
     # Register Blueprints (each blueprint is one feature area)
     from app.routes.main import main
     from app.routes.auth import auth
+    from app.routes.store import store
 
     app.register_blueprint(main)
     app.register_blueprint(auth)
+    app.register_blueprint(store)
 
     return app

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Store — Heneral Foodie{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/create_store.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="create-store-page">
+    <div class="form-container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Create Your Store</h1>
+            <p class="page-subtitle">Fill in your store details. Your store will be reviewed before going live.</p>
+        </div>
+
+        <!-- Pending approval notice -->
+        <div class="notice">
+            <span class="notice-icon">⏳</span>
+            <span>Your store will be set to <strong>Pending Approval</strong> after submission. An admin will review it before it becomes publicly visible.</span>
+        </div>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Form Card -->
+        <div class="card">
+            <form method="POST" action="{{ url_for('store.create_store') }}">
+                {{ form.hidden_tag() }}
+
+                <!-- Store Name -->
+                <div class="form-group">
+                    {{ form.name.label }}
+                    {{ form.name(
+                        placeholder="e.g. Juan's Tuna House",
+                        class="is-invalid" if form.name.errors else ""
+                    ) }}
+                    {% for error in form.name.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    {{ form.description.label }}
+                    {{ form.description(
+                        id="description",
+                        placeholder="Tell customers what makes your store special...",
+                        class="is-invalid" if form.description.errors else ""
+                    ) }}
+                    <span class="char-counter" id="charCounter">0 / 500 characters</span>
+                    {% for error in form.description.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Address -->
+                <div class="form-group">
+                    {{ form.address.label }}
+                    {{ form.address(
+                        placeholder="e.g. Lagao, General Santos City",
+                        class="is-invalid" if form.address.errors else ""
+                    ) }}
+                    <span class="field-hint">Optional but helps customers find you.</span>
+                    {% for error in form.address.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Category -->
+                <div class="form-group">
+                    {{ form.category.label }}
+                    <div class="select-wrapper">
+                        {{ form.category(
+                            class="is-invalid" if form.category.errors else ""
+                        ) }}
+                    </div>
+                    {% for error in form.category.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <a href="{{ url_for('main.index') }}" class="btn-secondary">Cancel</a>
+                    {{ form.submit(class="btn-primary") }}
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/create_store.js') }}"></script>
+{% endblock %}

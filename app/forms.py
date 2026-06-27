@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SelectField, SubmitField, BooleanField, TextAreaField
+from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError, Optional
 from app.models.user import User
 
 class RegistrationForm(FlaskForm):
@@ -65,3 +65,37 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember me')
 
     submit = SubmitField('Login')
+
+
+class StoreForm(FlaskForm):
+    # Store name — required
+    name = StringField('Store Name', validators=[
+        DataRequired(),
+        Length(min=3, max=100)
+    ])
+
+    # Store description — optional
+    description = TextAreaField('Description', validators=[
+        Optional(),
+        Length(max=500)
+    ])
+
+    # Store address — optional but recommended
+    address = StringField('Address', validators=[
+        Optional(),
+        Length(max=255)
+    ])
+
+    # Store category — required, must pick from the list
+    category = SelectField('Category', choices=[
+        ('cafe', 'Cafe'),
+        ('restaurant', 'Restaurant'),
+        ('street_food', 'Street Food'),
+        ('fast_food', 'Fast Food'),
+        ('bakery', 'Bakery'),
+        ('dessert_shop', 'Dessert Shop'),
+        ('food_stall', 'Food Stall'),
+        ('catering', 'Catering')
+    ], validators=[DataRequired()])
+
+    submit = SubmitField('Create Store')
