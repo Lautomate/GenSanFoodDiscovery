@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SelectField, SubmitField, BooleanField, TextAreaField, DecimalField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError, Optional
 from app.models.user import User
@@ -98,6 +99,12 @@ class StoreForm(FlaskForm):
         ('catering', 'Catering')
     ], validators=[DataRequired()])
 
+    #Image upload - Optional
+    image = FileField('Store Image', validators=[
+        Optional(),
+        FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Images only — JPG, JPEG, PNG, WEBP')
+    ])
+
     submit = SubmitField('Create Store')
 
 class FoodItemForm(FlaskForm):
@@ -161,5 +168,11 @@ class FoodItemForm(FlaskForm):
         ('drinks', 'Drinks'),
         ('meals', 'Meals')
     ], validators=[Optional()])
+
+    # Image upload — optional
+    image = FileField('Food Image', validators=[
+        Optional(),
+        FileAllowed(['jpg', 'jpeg', 'png', 'webp'], 'Images only — JPG, JPEG, PNG, WEBP')
+    ])
 
     submit = SubmitField('Add Food Item')

@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app import db
-from app.models.image import FoodItem
 from app.forms import StoreForm, FoodItemForm
 from app.models.store import Store
+from app.models.image import StoreImage, FoodItem
+from app.utils.helpers import save_image
 
 store = Blueprint('store', __name__)
 
@@ -28,6 +29,18 @@ def create_store():
         )
 
         db.session.add(new_store)
+        db.session.flush()  # Gets the new store ID before committing
+
+        # Handle image upload if vendor uploaded one
+        if form.image.data:
+            filename = save_image(form.image.data, 'stores')
+            if filename:
+                store_image = StoreImage(
+                    store_id=new_store.id,
+                    filename=filename
+                )
+                db.session.add(store_image)
+
         db.session.commit()
 
         flash('Store created successfully! It is now pending approval.', 'success')
@@ -57,16 +70,21 @@ def add_food_item(store_id):
     form = FoodItemForm()
 
     if form.validate_on_submit():
+        # Handle image upload if vendor uploaded one
+        image_filename = None
+        if form.image.data:
+            image_filename = save_image(form.image.data, 'foods')
+
         food_item = FoodItem(
             store_id=current_store.id,
             name=form.name.data,
             description=form.description.data,
             price=form.price.data,
             category_1=form.category_1.data,
-            # Save None if vendor selected empty option
             category_2=form.category_2.data or None,
-            category_3=form.category_3.data or None
-        )
+            category_3=form.category_3.data or None,
+            image_filename=image_filename
+        )       
 
         db.session.add(food_item)
         db.session.commit()

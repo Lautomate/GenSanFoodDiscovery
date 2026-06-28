@@ -202,3 +202,20 @@ a {
     border: 1px solid #FBC02D;
     color: #F57F17;
 }
+
+/* ─── FILE INPUT ─── */
+.file-input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--input-bg);
+    border: 1px dashed var(--input-border);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.file-input:hover {
+    border-color: var(--primary);
+}

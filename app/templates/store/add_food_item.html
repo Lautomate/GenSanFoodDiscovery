@@ -32,7 +32,7 @@
 
         <!-- Form Card -->
         <div class="card">
-            <form method="POST" action="{{ url_for('store.add_food_item', store_id=store.id) }}">
+            <form method="POST" action="{{ url_for('store.add_food_item', store_id=store.id) }}", enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
 
                 <!-- Food Name -->
@@ -105,6 +105,16 @@
                         </div>
                     </div>
 
+                </div>
+
+                <!-- Food Image Upload -->
+                <div class="form-group">
+                    {{ form.image.label }}
+                    {{ form.image(class="file-input") }}
+                    <span class="field-hint">Optional. JPG, JPEG, PNG, or WEBP. Max 5MB.</span>
+                    {% for error in form.image.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
                 </div>
 
                 <!-- Form Actions -->

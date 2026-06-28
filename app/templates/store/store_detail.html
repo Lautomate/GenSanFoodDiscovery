@@ -11,7 +11,7 @@
 <!-- ─── HERO BANNER ─── -->
 <div class="store-hero">
     {% if store.images.first() %}
-        <img src="{{ url_for('static', filename='uploads/' + store.images.first().filename) }}" alt="{{ store.name }}">
+        <img src="{{ url_for('static', filename='uploads/stores/' + store.images.first().filename) }}" alt="{{ store.name }}">
     {% else %}
         <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80" alt="{{ store.name }}">
     {% endif %}
@@ -89,7 +89,7 @@
                     <!-- Food image -->
                     {% if item.image_filename %}
                         <img class="food-card-image"
-                             src="{{ url_for('static', filename='uploads/' + item.image_filename) }}"
+                             src="{{ url_for('static', filename='uploads/foods/' + item.image_filename) }}"
                              alt="{{ item.name }}">
                     {% else %}
                         <div class="food-card-image-placeholder">🍽</div>

@@ -33,7 +33,7 @@
 
         <!-- Form Card -->
         <div class="card">
-            <form method="POST" action="{{ url_for('store.create_store') }}">
+            <form method="POST" action="{{ url_for('store.create_store') }}", enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
 
                 <!-- Store Name -->
@@ -87,6 +87,17 @@
                         <span class="field-error">{{ error }}</span>
                     {% endfor %}
                 </div>
+                
+                <!-- Store Image Upload -->
+                <div class="form-group">
+                    {{ form.image.label }}
+                    {{ form.image(class="file-input") }}
+                    <span class="field-hint">Optional. JPG, JPEG, PNG, or WEBP. Max 5MB.</span>
+                    {% for error in form.image.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                                         
 
                 <!-- Form Actions -->
                 <div class="form-actions">
