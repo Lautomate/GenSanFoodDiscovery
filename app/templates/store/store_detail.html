@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ store.name }} — Heneral Foodie{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/store_detail.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ─── HERO BANNER ─── -->
+<div class="store-hero">
+    {% if store.images.first() %}
+        <img src="{{ url_for('static', filename='uploads/' + store.images.first().filename) }}" alt="{{ store.name }}">
+    {% else %}
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80" alt="{{ store.name }}">
+    {% endif %}
+    <div class="store-hero-overlay">
+        <span class="store-category-badge">{{ store.category | replace('_', ' ') | title }}</span>
+        <h1 class="store-hero-name">{{ store.name }}</h1>
+        <p class="store-hero-address">📍 {{ store.address or 'General Santos City' }}</p>
+    </div>
+</div>
+
+<!-- ─── INFO BAR ─── -->
+<div class="store-info-bar">
+    <div class="store-info-bar-inner">
+
+        <!-- Rating -->
+        <div class="info-item">
+            <span class="rating-number">{{ "%.1f"|format(store.average_rating) }}</span>
+            <span class="stars">
+                {% for i in range(1, 6) %}
+                    {% if i <= store.average_rating %}★{% else %}<span class="stars-empty">★</span>{% endif %}
+                {% endfor %}
+            </span>
+            <span class="review-count">{{ store.review_count }} reviews</span>
+        </div>
+
+        <!-- Address -->
+        <div class="info-item">
+            <span class="info-item-icon">📍</span>
+            {{ store.address or 'General Santos City' }}
+        </div>
+
+        <!-- Status -->
+        <div class="info-item">
+            <span class="info-item-icon">🕐</span>
+            {% if store.status == 'approved' %}
+                <span class="status-badge approved">Open</span>
+            {% elif store.status == 'pending' %}
+                <span class="status-badge pending">Pending Approval</span>
+            {% else %}
+                <span class="status-badge rejected">Rejected</span>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+<!-- ─── MAIN CONTENT ─── -->
+<div class="store-content">
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- ─── ABOUT ─── -->
+    <div class="store-about">
+        <h2 class="section-title">About</h2>
+        <p>{{ store.description or 'No description provided yet.' }}</p>
+    </div>
+
+    <!-- ─── FOOD ITEMS ─── -->
+    <div class="store-food-items">
+        <h2 class="section-title">What We Offer</h2>
+
+        {% set food_items = store.food_items.all() %}
+        {% if food_items %}
+            <div class="food-grid">
+                {% for item in food_items %}
+                <div class="food-card">
+
+                    <!-- Food image -->
+                    {% if item.image_filename %}
+                        <img class="food-card-image"
+                             src="{{ url_for('static', filename='uploads/' + item.image_filename) }}"
+                             alt="{{ item.name }}">
+                    {% else %}
+                        <div class="food-card-image-placeholder">🍽</div>
+                    {% endif %}
+
+                    <div class="food-card-body">
+                        <h3 class="food-card-name">{{ item.name }}</h3>
+                        <p class="food-card-description">{{ item.description or '' }}</p>
+                        <p class="food-card-price">₱{{ "%.2f"|format(item.price) }}</p>
+
+                        <!-- Category tags -->
+                        <div class="food-card-tags">
+                            {% if item.category_1 %}
+                                <span class="food-tag">{{ item.category_1 | replace('_', ' ') | title }}</span>
+                            {% endif %}
+                            {% if item.category_2 %}
+                                <span class="food-tag">{{ item.category_2 | replace('_', ' ') | title }}</span>
+                            {% endif %}
+                            {% if item.category_3 %}
+                                <span class="food-tag">{{ item.category_3 | replace('_', ' ') | title }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <span class="empty-state-icon">🍽</span>
+                No food items added yet.
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- ─── REVIEWS ─── -->
+    <div class="store-reviews">
+        <h2 class="section-title">Reviews</h2>
+
+        <!-- Rating summary -->
+        <div class="reviews-summary">
+            <div class="reviews-summary-rating">{{ "%.1f"|format(store.average_rating) }}</div>
+            <div class="reviews-summary-stars">
+                {% for i in range(1, 6) %}
+                    {% if i <= store.average_rating %}★{% else %}<span style="color: var(--input-border)">★</span>{% endif %}
+                {% endfor %}
+            </div>
+            <div class="reviews-summary-count">Based on {{ store.review_count }} reviews</div>
+        </div>
+
+        <!-- Write a review button — logged in users only -->
+        {% if current_user.is_authenticated and not current_user.is_vendor and not current_user.is_admin %}
+            <div class="write-review-wrapper">
+                <a href="#" class="btn-primary">✏️ Write a Review</a>
+            </div>
+        {% endif %}
+
+        <!-- Review list -->
+        {% set reviews = store.reviews.all() %}
+        {% if reviews %}
+            {% for review in reviews %}
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="review-author">{{ review.author.username }}</span>
+                    <span class="review-date">{{ review.created_at.strftime('%B %Y') }}</span>
+                </div>
+                <div class="review-stars">
+                    {% for i in range(1, 6) %}
+                        {% if i <= review.rating %}★{% else %}<span style="color: var(--input-border)">★</span>{% endif %}
+                    {% endfor %}
+                </div>
+                <p class="review-text">{{ review.review_text }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <span class="empty-state-icon">💬</span>
+                No reviews yet. Be the first to review!
+            </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
