@@ -1,0 +1,303 @@
+/* ─────────────────────────────────────────────
+   index.css — Home page only styles
+───────────────────────────────────────────── */
+
+/* ─── HERO BANNER ─── */
+.hero {
+    background: linear-gradient(135deg, #E8470A 0%, #F5A623 100%);
+    padding: 60px 24px;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 28px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    max-width: 620px;
+    margin: 0 auto;
+    gap: 10px;
+}
+
+.search-input-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    right: 14px;
+    color: #999;
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.search-input {
+    width: 100%;
+    padding: 14px 40px 14px 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-dark);
+    outline: none;
+    background: white;
+}
+
+.search-btn {
+    padding: 14px 24px;
+    background: #C93D08;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.search-btn:hover {
+    background: #A83306;
+}
+
+/* ─── CATEGORY FILTER BAR ─── */
+.category-bar {
+    background: white;
+    border-bottom: 1px solid var(--input-border);
+    padding: 16px 24px;
+    position: sticky;
+    top: 64px;
+    z-index: 50;
+}
+
+.category-bar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.category-bar-inner::-webkit-scrollbar {
+    display: none;
+}
+
+.category-btn {
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    border: 1.5px solid var(--input-border);
+    background: white;
+    color: var(--text-dark);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.category-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.category-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+/* ─── STORE RESULTS ─── */
+.store-results {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+
+.results-header {
+    margin-bottom: 24px;
+}
+
+.results-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.results-count {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+/* ─── STORE GRID ─── */
+.store-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+/* ─── STORE CARD ─── */
+.store-card {
+    background: var(--card);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+}
+
+.store-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+}
+
+.store-card-image-wrapper {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    background: var(--input-bg);
+}
+
+.store-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.store-card-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    background: var(--input-bg);
+}
+
+.store-card-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--primary);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: capitalize;
+}
+
+.store-card-body {
+    padding: 16px;
+}
+
+.store-card-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.store-card-address {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+.store-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.store-card-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.store-card-stars {
+    color: var(--primary);
+    font-size: 0.85rem;
+}
+
+.store-card-rating-number {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.store-card-review-count {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.store-card-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+/* ─── EMPTY STATE ─── */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-state-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.empty-state-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.empty-state-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+/* ─── DESKTOP LAYOUT ─── */
+@media (min-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .store-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

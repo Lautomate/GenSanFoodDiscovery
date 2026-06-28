@@ -1,14 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Food Discovery — General Santos City</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Welcome to Local Food Discovery</h1>
-    <p>Discover the best local food spots in General Santos City.</p>
+{% block title %}Heneral Foodie — Discover Local Food in General Santos City{% endblock %}
 
-</body>
-</html>
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ─── HERO BANNER ─── -->
+<div class="hero">
+    <h1 class="hero-title">Discover Local Food in General Santos City</h1>
+    <p class="hero-subtitle">Find the best local restaurants, cafes, and street food near you</p>
+
+    <form id="searchForm" method="GET" action="{{ url_for('main.index') }}">
+        <div class="search-bar">
+            <div class="search-input-wrapper">
+                <input
+                    id="searchInput"
+                    type="text"
+                    name="q"
+                    class="search-input"
+                    placeholder="Search stores..."
+                    value="{{ search_query or '' }}"
+                >
+                <span class="search-icon">🔍</span>
+            </div>
+            <button type="submit" class="search-btn">Search</button>
+        </div>
+    </form>
+</div>
+
+<!-- ─── CATEGORY FILTER BAR ─── -->
+<div class="category-bar">
+    <div class="category-bar-inner">
+
+        <!-- All button -->
+        <a href="{{ url_for('main.index', q=search_query) }}"
+           class="category-btn {{ 'active' if not active_category else '' }}">
+            All
+        </a>
+
+        <!-- Category buttons -->
+        {% set categories = [
+            ('cafe', 'Cafe'),
+            ('restaurant', 'Restaurant'),
+            ('street_food', 'Street Food'),
+            ('fast_food', 'Fast Food'),
+            ('bakery', 'Bakery'),
+            ('dessert_shop', 'Dessert Shop'),
+            ('food_stall', 'Food Stall'),
+            ('catering', 'Catering')
+        ] %}
+
+        {% for value, label in categories %}
+            <a href="{{ url_for('main.index', category=value, q=search_query) }}"
+               class="category-btn {{ 'active' if active_category == value else '' }}">
+                {{ label }}
+            </a>
+        {% endfor %}
+
+    </div>
+</div>
+
+<!-- ─── STORE RESULTS ─── -->
+<div class="store-results">
+
+    <!-- Results header -->
+    <div class="results-header">
+        <h2 class="results-title">
+            {% if active_category %}
+                {{ active_category | replace('_', ' ') | title }}
+            {% else %}
+                All Stores
+            {% endif %}
+        </h2>
+        <p class="results-count">Showing {{ stores|length }} store{{ 's' if stores|length != 1 else '' }}</p>
+    </div>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Store grid or empty state -->
+    {% if stores %}
+        <div class="store-grid">
+            {% for store in stores %}
+            <a href="{{ url_for('store.store_detail', store_id=store.id) }}" class="store-card">
+
+                <!-- Store image -->
+                <div class="store-card-image-wrapper">
+                    {% if store.images.first() %}
+                        <img class="store-card-image"
+                             src="{{ url_for('static', filename='uploads/stores/' + store.images.first().filename) }}"
+                             alt="{{ store.name }}">
+                    {% else %}
+                        <div class="store-card-image-placeholder">🍽</div>
+                    {% endif %}
+                    <span class="store-card-badge">{{ store.category | replace('_', ' ') | title }}</span>
+                </div>
+
+                <!-- Store info -->
+                <div class="store-card-body">
+                    <h3 class="store-card-name">{{ store.name }}</h3>
+                    <p class="store-card-address">
+                        📍 {{ store.address or 'General Santos City' }}
+                    </p>
+                    <div class="store-card-footer">
+                        <div class="store-card-rating">
+                            <span class="store-card-stars">
+                                {% for i in range(1, 6) %}
+                                    {% if i <= store.average_rating %}★{% else %}<span style="color: var(--input-border)">★</span>{% endif %}
+                                {% endfor %}
+                            </span>
+                            <span class="store-card-rating-number">{{ "%.1f"|format(store.average_rating) }}</span>
+                            <span class="store-card-review-count">({{ store.review_count }})</span>
+                        </div>
+                        <span class="store-card-link">View Store ›</span>
+                    </div>
+                </div>
+
+            </a>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <!-- Empty state -->
+        <div class="empty-state">
+            <span class="empty-state-icon">🍽</span>
+            <h3 class="empty-state-title">No stores found</h3>
+            <p class="empty-state-subtitle">Try a different search or category</p>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}
