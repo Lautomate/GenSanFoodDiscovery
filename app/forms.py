@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField, SubmitField, BooleanField, TextAreaField
+from wtforms import StringField, PasswordField, SelectField, SubmitField, BooleanField, TextAreaField, DecimalField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError, Optional
 from app.models.user import User
 
@@ -99,3 +99,67 @@ class StoreForm(FlaskForm):
     ], validators=[DataRequired()])
 
     submit = SubmitField('Create Store')
+
+class FoodItemForm(FlaskForm):
+    # Food name — required
+    name = StringField('Food Name', validators=[
+        DataRequired(),
+        Length(min=2, max=100)
+    ])
+
+    # Short description — optional
+    description = TextAreaField('Description', validators=[
+        Optional(),
+        Length(max=300)
+    ])
+
+    # Price — required
+    price = DecimalField('Price (₱)', validators=[
+        DataRequired()
+    ], places=2)
+
+    # Category 1 — required, at least one category
+    category_1 = SelectField('Primary Category', choices=[
+        ('coffee', 'Coffee'),
+        ('milk_tea', 'Milk Tea'),
+        ('breakfast', 'Breakfast'),
+        ('lunch', 'Lunch'),
+        ('dinner', 'Dinner'),
+        ('snacks', 'Snacks'),
+        ('desserts', 'Desserts'),
+        ('street_food', 'Street Food'),
+        ('drinks', 'Drinks'),
+        ('meals', 'Meals')
+    ], validators=[DataRequired()])
+
+    # Category 2 — optional
+    category_2 = SelectField('Secondary Category', choices=[
+        ('', 'None'),
+        ('coffee', 'Coffee'),
+        ('milk_tea', 'Milk Tea'),
+        ('breakfast', 'Breakfast'),
+        ('lunch', 'Lunch'),
+        ('dinner', 'Dinner'),
+        ('snacks', 'Snacks'),
+        ('desserts', 'Desserts'),
+        ('street_food', 'Street Food'),
+        ('drinks', 'Drinks'),
+        ('meals', 'Meals')
+    ], validators=[Optional()])
+
+    # Category 3 — optional
+    category_3 = SelectField('Third Category', choices=[
+        ('', 'None'),
+        ('coffee', 'Coffee'),
+        ('milk_tea', 'Milk Tea'),
+        ('breakfast', 'Breakfast'),
+        ('lunch', 'Lunch'),
+        ('dinner', 'Dinner'),
+        ('snacks', 'Snacks'),
+        ('desserts', 'Desserts'),
+        ('street_food', 'Street Food'),
+        ('drinks', 'Drinks'),
+        ('meals', 'Meals')
+    ], validators=[Optional()])
+
+    submit = SubmitField('Add Food Item')

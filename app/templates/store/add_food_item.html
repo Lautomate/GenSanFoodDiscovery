@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Food Item — {{ store.name }} — Heneral Foodie{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/add_food_item.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="add-food-page">
+    <div class="form-container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Add Food Item</h1>
+            <p class="page-subtitle">Add a new food item to your store listing.</p>
+        </div>
+
+        <!-- Store label -->
+        <div class="store-label">
+            Adding to: <span>{{ store.name }}</span>
+        </div>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Form Card -->
+        <div class="card">
+            <form method="POST" action="{{ url_for('store.add_food_item', store_id=store.id) }}">
+                {{ form.hidden_tag() }}
+
+                <!-- Food Name -->
+                <div class="form-group">
+                    {{ form.name.label }}
+                    {{ form.name(
+                        placeholder="e.g. Grilled Tuna Belly",
+                        class="is-invalid" if form.name.errors else ""
+                    ) }}
+                    {% for error in form.name.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    {{ form.description.label }}
+                    {{ form.description(
+                        placeholder="Briefly describe this food item...",
+                        class="is-invalid" if form.description.errors else ""
+                    ) }}
+                    <span class="field-hint">Optional. Max 300 characters.</span>
+                    {% for error in form.description.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Price -->
+                <div class="form-group">
+                    {{ form.price.label }}
+                    <div class="price-input-wrapper">
+                        <span class="price-symbol">₱</span>
+                        {{ form.price(
+                            placeholder="0.00",
+                            class="is-invalid" if form.price.errors else ""
+                        ) }}
+                    </div>
+                    {% for error in form.price.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Categories -->
+                <p class="category-group-title">Categories <span class="field-hint" style="display:inline">(assign up to 3)</span></p>
+                <div class="category-group">
+
+                    <div>
+                        {{ form.category_1.label }}
+                        <div class="select-wrapper">
+                            {{ form.category_1(
+                                class="is-invalid" if form.category_1.errors else ""
+                            ) }}
+                        </div>
+                        {% for error in form.category_1.errors %}
+                            <span class="field-error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div>
+                        {{ form.category_2.label }}
+                        <div class="select-wrapper">
+                            {{ form.category_2() }}
+                        </div>
+                    </div>
+
+                    <div>
+                        {{ form.category_3.label }}
+                        <div class="select-wrapper">
+                            {{ form.category_3() }}
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <a href="{{ url_for('store.store_detail', store_id=store.id) }}" class="btn-secondary">Cancel</a>
+                    {{ form.submit(class="btn-primary") }}
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
