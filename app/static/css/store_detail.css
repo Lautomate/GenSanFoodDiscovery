@@ -370,3 +370,30 @@
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
+
+/* ─── REVIEW ACTIONS ─── */
+.review-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.btn-danger {
+    padding: 12px 20px;
+    background: transparent;
+    color: var(--error-text);
+    border: 1px solid var(--error-text);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-danger:hover {
+    background: var(--error-text);
+    color: white;
+}

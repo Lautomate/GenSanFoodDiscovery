@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if action == 'edit' %}Edit Review{% else %}Write a Review{% endif %}
+    — {{ store.name }} — Heneral Foodie
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/review_form.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="review-form-page">
+    <div class="form-container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">
+                {% if action == 'edit' %}Edit Your Review{% else %}Write a Review{% endif %}
+            </h1>
+            <p class="page-subtitle">
+                {% if action == 'edit' %}
+                    Update your review for <strong>{{ store.name }}</strong>
+                {% else %}
+                    Share your experience at <strong>{{ store.name }}</strong>
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Form Card -->
+        <div class="card">
+            <form method="POST" action="
+                {% if action == 'edit' %}
+                    {{ url_for('review.edit_review', store_id=store.id) }}
+                {% else %}
+                    {{ url_for('review.create_review', store_id=store.id) }}
+                {% endif %}
+            ">
+                {{ form.hidden_tag() }}
+
+                <!-- Star Rating -->
+                <div class="form-group">
+                    {{ form.rating.label }}
+                    <div class="select-wrapper">
+                        {{ form.rating(
+                            class="is-invalid" if form.rating.errors else ""
+                        ) }}
+                    </div>
+                    {% for error in form.rating.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Review Text -->
+                <div class="form-group">
+                    {{ form.review_text.label }}
+                    {{ form.review_text(
+                        placeholder="Share what you loved, what could be better, and anything else other foodies should know...",
+                        class="is-invalid" if form.review_text.errors else ""
+                    ) }}
+                    <span class="field-hint">Minimum 10 characters. Maximum 1000 characters.</span>
+                    {% for error in form.review_text.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <a href="{{ url_for('store.store_detail', store_id=store.id) }}" class="btn-secondary">Cancel</a>
+                    {{ form.submit(class="btn-primary") }}
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

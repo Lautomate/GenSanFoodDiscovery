@@ -176,3 +176,21 @@ class FoodItemForm(FlaskForm):
     ])
 
     submit = SubmitField('Add Food Item')
+
+class ReviewForm(FlaskForm):
+    # Star rating — required, must be between 1 and 5
+    rating = SelectField('Rating', choices=[
+        ('1', '⭐ 1 — Poor'),
+        ('2', '⭐⭐ 2 — Fair'),
+        ('3', '⭐⭐⭐ 3 — Good'),
+        ('4', '⭐⭐⭐⭐ 4 — Very Good'),
+        ('5', '⭐⭐⭐⭐⭐ 5 — Excellent')
+    ], validators=[DataRequired()])
+
+    # Review text — required
+    review_text = TextAreaField('Your Review', validators=[
+        DataRequired(),
+        Length(min=10, max=1000)
+    ])
+
+    submit = SubmitField('Submit Review')

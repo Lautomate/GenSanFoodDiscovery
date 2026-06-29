@@ -33,9 +33,11 @@ def create_app():
     from app.routes.main import main
     from app.routes.auth import auth
     from app.routes.store import store
+    from app.routes.review import review
 
     app.register_blueprint(main)
     app.register_blueprint(auth)
     app.register_blueprint(store)
+    app.register_blueprint(review)
 
     return app

@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app import db
-from app.forms import StoreForm, FoodItemForm
+from app.forms import StoreForm, FoodItemForm, ReviewForm
 from app.models.store import Store
 from app.models.image import StoreImage, FoodItem
+from app.models.review import Review
 from app.utils.helpers import save_image
 
 store = Blueprint('store', __name__)
@@ -51,9 +52,26 @@ def create_store():
 
 @store.route('/store/<store_id>')
 def store_detail(store_id):
-    # Get the store or return 404 if not found
-    store = Store.query.get_or_404(store_id)
-    return render_template('store/store_detail.html', store=store)
+    current_store = Store.query.get_or_404(store_id)
+
+    # Get the current user's existing review for this store
+    user_review = None
+    review_form = None
+
+    if current_user.is_authenticated:
+        user_review = Review.query.filter_by(
+            user_id=current_user.id,
+            store_id=store_id
+        ).first()
+
+        # Only regular users get the review form
+        if not current_user.is_vendor and not current_user.is_admin:
+            review_form = ReviewForm()
+
+    return render_template('store/store_detail.html',
+                           store=current_store,
+                           user_review=user_review,
+                           review_form=review_form)
 
 
 @store.route('/store/<store_id>/add-food', methods=['GET', 'POST'])
